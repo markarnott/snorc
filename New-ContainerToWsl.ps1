@@ -31,14 +31,14 @@ param (
 
 #Verify that podman is installed and install it if it is not.
 Function Test-Podman {
-    $PodmanVer = wsl -e podman --version
+    $PodmanVer = wsl.exe -e podman --version
 
     if($null -eq $PodmanVer){
         Write-Verbose "Installing Podman"
         
         # convert line endings from Windows to Unix
         (Get-Content -Raw ".\get-podman.sh") -Replace "`r`n","`n" | Set-Content -NoNewline ".\get-podman.sh"
-        wsl -e ./get-podman.sh
+        wsl.exe -e .shared/get-podman.sh
     }
     Write-Verbose "Found $PodmanVer"
 }
@@ -58,7 +58,7 @@ Function New-WslDistro {
     Push-Location $DistroPath
     
     # convert line endings from Windows to Unix
-    (Get-Content -Raw "$PSScriptRoot\boxcutter.sh") -Replace "`r`n","`n" | Set-Content -NoNewline ".\boxcutter.sh"
+    (Get-Content -Raw "$PSScriptRoot\shared\boxcutter.sh") -Replace "`r`n","`n" | Set-Content -NoNewline "$PSScriptRoot\shared\boxcutter.sh"
 
     wsl -e ./boxcutter.sh $Container $DistroName
 
