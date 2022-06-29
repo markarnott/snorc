@@ -3,7 +3,7 @@
 pull an image from a container registry and deploy it as a WSL distro
 
 .PARAMETER Container
-The name of the container that will be pulled and then converted
+The docker path of the container that will be pulled and then converted
 
 .PARAMETER NewDistroName
 The name of the WSL Distro that this script will create
@@ -13,7 +13,8 @@ The name of the WSL Distro that this script will create
 
 .PARAMETER BootstrapDistroName
 (Optional) An existing WSL distro that is used to run podman to pull and convert the container image.  
-This distro should be a version of Ubuntu (Debian might work, but has not been tested.)
+This distro must be a version of Ubuntu.  
+If this parameter is not supplied the script will probe to find an ubuntu distribution.
 
 .NOTES
 TODO if the default distro is not ubuntu, podman install will go haywire.
@@ -24,27 +25,23 @@ param (
     $Container,
     [parameter(Mandatory)]
     $NewDistroName,
-    $BootstrapDistroName = "Ubuntu-20.04",
+    $BootstrapDistroName,
     $WslRootPath = "$ENV:USERPROFILE\WSL",
     [switch]$NoCleanup
 )
 
-#Verify that podman is installed and install it if it is not.
-Function Test-Podman {
-    $PodmanVer = wsl.exe -e podman --version
+Write-Warning "DEPRECATED:  This script is too brittle.  It will be removed soon"
 
-    if($null -eq $PodmanVer){
-        Write-Verbose "Installing Podman"
-        
-        # convert line endings from Windows to Unix
-        (Get-Content -Raw ".\get-podman.sh") -Replace "`r`n","`n" | Set-Content -NoNewline ".\get-podman.sh"
-        wsl.exe -e .shared/get-podman.sh
+Import-Module "$PSScriptRoot\shared\WslUtilityFunctions.psm1"
+
+Function Main{
+
+    If($null -eq $BootstrapDistroName){
+        $BootstrapDistroName = Find-DistroFromLinuxFamily "ubuntu"
     }
-    Write-Verbose "Found $PodmanVer"
-}
-
-Function Test-Distros {
-#TODO
+    
+    New-WslDistro -Container $Container -WslRootPath $WslRootPath -DistroName $DistroName
+    
 }
 
 Function New-WslDistro {
@@ -58,7 +55,7 @@ Function New-WslDistro {
     Push-Location $DistroPath
     
     # convert line endings from Windows to Unix
-    (Get-Content -Raw "$PSScriptRoot\shared\boxcutter.sh") -Replace "`r`n","`n" | Set-Content -NoNewline "$PSScriptRoot\shared\boxcutter.sh"
+    (Get-Content -Raw "$PSScriptRoot\shared\boxcutter.sh") -Replace "`r`n","`n" | Set-Content -NoNewline ".\boxcutter.sh"
 
     wsl -e ./boxcutter.sh $Container $DistroName
 
@@ -72,8 +69,6 @@ Function New-WslDistro {
     Pop-Location
 }
 
-Test-Podman
+Main
 
-New-WslDistro -Container $Container -WslRootPath $WslRootPath -DistroName $DistroName
-
-wsl --list -v
+wsl.exe --list -v

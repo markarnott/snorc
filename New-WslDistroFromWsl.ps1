@@ -45,7 +45,7 @@ Function Main{
 
     Clone-Distro -From $OldDistroName -To $NewDistroName -WslDistroPath $NewDistroPath
 
-    Copy-DistroSettings -From $OldDistroName -To $NewDistroName
+    Copy-DistroSettings -FromDistro $OldDistroName -ToDistro $NewDistroName
 
     #TODO check for errors and warn
     Write-Host "Cloning From $OldDistroName To $NewDistroName is complete"
@@ -63,25 +63,6 @@ Function Clone-Distro{
 
     wsl.exe --import $To $WslDistroPath $BackupFilePath
     Write-Verbose "Import to $WslDistroPath complete"
-}
-
-Function Copy-DistroSettings{
-    param([string]$From, [string]$To)
-
-    $OldDistroRegKey = Find-DistroRegKey -DistroName $From
-    If($null -eq $OldDistroRegKey){
-        Write-Error "Could not find Registry entries for $From"
-        Return
-    }
-
-    $NewDistroRegKey = Find-DistroRegKey -DistroName $To
-    If($null -eq $NewDistroRegKey){
-        Write-Error "Could not find Registry entries for $To"
-        Return
-    }
-    Copy-RegKeyValue -FromKey $OldDistroRegKey -ToKey $NewDistroRegKey -ValueName "DefaultEnvironment"
-    Copy-RegKeyValue -FromKey $OldDistroRegKey -ToKey $NewDistroRegKey -ValueName "DefaultUid"
-    Copy-RegKeyValue -FromKey $OldDistroRegKey -ToKey $NewDistroRegKey -ValueName "KernelCommandLine"
 }
 
 Main
