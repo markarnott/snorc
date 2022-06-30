@@ -2,7 +2,7 @@
 
 ## Converting a container to WSL
 
-[How-To-Convert-Docker-Image-To-WSL](How-To-Convert-Docker-Image-To-WSL)
+[How-To-Convert-Docker-Image-To-WSL](How-To-Convert-Docker-Image-To-WSL.md)
 
 ## Clone an existing WSL Instance
 
