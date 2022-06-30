@@ -1,30 +1,15 @@
-# Simply NO Requirement for Containers
+# Helpers for WSL development environments
 
-SNORC is a few scripts that will convert a container into a WSL distribution
+## Converting a container to WSL
 
-## Overview
+(How-To-Convert-Docker-Image-To-WSL)[How-To-Convert-Docker-Image-To-WSL]
 
-Do you love working in isolated development environments with Windows Subsystem for Linux, WSL.
+## Clone an existing WSL Instance
 
-Do you love the ease of pulling down your development tools from a container registry.
+`New-WslDistroFromWsl.ps1 -NewDistroName "MyTools"
 
-Do you hate the complexity of Docker and Kubernetes and all the other container hoopla getting in the way of your productivity.
+## What's with the SNORC thing?
 
-Containers are great but sometimes they bring more complexity than needed.
-These scripts pull an image from a container registry and deploy it as a WSL distro.
+SNORC originally stood for 'Simply NO Requirement for Containers'.  
 
-## Usage
-
->.\New-ContainerToWsl.ps1 -Container "busybox:stable" -DistroName "BusyBox"
-
-## Prerequisites
-
-WSL must be enabled.
-
-An Ubuntu distribution must be installed on WSL.
-
-## Warning
-
-SNORC works with simple containers.
-
-WSL is not compatible with Linux Systemd.  If the container includes systemd it will not work when converted to a WSL distro.
+But converting Containers to WSL2 instances is anything but simple.  There are many edge cases and lots of complexity.
