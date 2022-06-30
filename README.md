@@ -6,7 +6,7 @@
 
 ## Clone an existing WSL Instance
 
-`New-WslDistroFromWsl.ps1 -NewDistroName "MyTools"
+`New-WslDistroFromWsl.ps1 -NewDistroName "MyTools"`
 
 ## What's with the SNORC thing?
 
