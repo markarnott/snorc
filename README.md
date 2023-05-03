@@ -1,15 +1,17 @@
-# Helpers for WSL development environments
+# SNORC
 
-## Converting a container to WSL
+This is my personal proving ground where I build alpha level tools.
+
+These tools are focused on making WSL development environments easier to live with.
+
+## Documentation
+
+### Converting a container to WSL
 
 [How-To-Convert-Docker-Image-To-WSL](How-To-Convert-Docker-Image-To-WSL.md)
 
-## Clone an existing WSL Instance
+### Clone an existing WSL Instance
 
-`New-WslDistroFromWsl.ps1 -NewDistroName "MyTools"`
-
-## What's with the SNORC thing?
-
-SNORC originally stood for 'Simply NO Requirement for Containers'.  
-
-But converting Containers to WSL2 instances is anything but simple.  There are many edge cases and lots of complexity.
+```powershell
+New-WslDistroFromWsl.ps1 -NewDistroName "MyTools"
+```
