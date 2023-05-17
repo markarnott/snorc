@@ -1,6 +1,6 @@
 # SNORC
 
-This is my personal proving ground where I build alpha level tools.
+This is my proof of concept testing grounds where I build utilities for WSL.
 
 These tools are focused on making WSL development environments easier to live with.
 
@@ -13,5 +13,5 @@ These tools are focused on making WSL development environments easier to live wi
 ### Clone an existing WSL Instance
 
 ```powershell
-New-WslDistroFromWsl.ps1 -NewDistroName "MyTools"
+Clone-WslDistro.ps1 -NewDistroName "MyTools"
 ```
