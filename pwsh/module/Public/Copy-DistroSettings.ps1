@@ -19,7 +19,7 @@ Function Copy-DistroSettings{
     }
 
     Copy-RegKeyValue -FromKey $OldDistroRegKey -ToKey $NewDistroRegKey -ValueName "DefaultUid"
-    # TODO check for existance of DefaultEnvironment and KernelCommandLine.  These seem to be missing on newer distros and KernelCommandLine uses init (will that work with systemd?)
-    Copy-RegKeyValue -FromKey $OldDistroRegKey -ToKey $NewDistroRegKey -ValueName "DefaultEnvironment"
-    Copy-RegKeyValue -FromKey $OldDistroRegKey -ToKey $NewDistroRegKey -ValueName "KernelCommandLine"
+    
+    Copy-RegKeyValue -FromKey $OldDistroRegKey -ToKey $NewDistroRegKey -ValueName "DefaultEnvironment" -Silent
+    Copy-RegKeyValue -FromKey $OldDistroRegKey -ToKey $NewDistroRegKey -ValueName "KernelCommandLine" -Silent
 }

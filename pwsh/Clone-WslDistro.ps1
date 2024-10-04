@@ -55,7 +55,7 @@ Function Main{
 Function Clone-Distro{
     param([string]$From, [string]$To, [string]$WslDistroPath)
 
-    Write-Host "Cloning From $From To $To.  This takes a while."
+    Write-Host "Cloning From $From To $To."
     $TimeStamp = Get-Date -Format "yyyy-MM-dd"
     $BackupFilePath = Join-Path $WslDistroPath -ChildPath "$TimeStamp.Export.$From.tar.gz"
     wsl.exe --export $From $BackupFilePath
@@ -63,6 +63,8 @@ Function Clone-Distro{
 
     wsl.exe --import $To $WslDistroPath $BackupFilePath
     Write-Verbose "Import to $WslDistroPath complete"
+    Write-Verbose "Removing export tar file $BackupFilePath"
+    Remove-Item $BackupFilePath
 }
 
 Main

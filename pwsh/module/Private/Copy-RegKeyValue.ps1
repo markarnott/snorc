@@ -9,7 +9,9 @@ Function Copy-RegKeyValue{
         [Parameter(Mandatory)][string]
         $ToKey,
         [Parameter(Mandatory)][string]
-        $ValueName
+        $ValueName,
+        [Switch]
+        $Silent
         )
 
         $SourceKey = Get-Item -Path $FromKey
@@ -17,11 +19,14 @@ Function Copy-RegKeyValue{
             Write-Warning "Registry Key $FromKey not found"
             Return
         }
-        $ValueType = $SourceKey.GetValueKind($ValueName)
-        If($null -eq $ValueType) {
-            Write-Warning "Could not copy Registry Value $ValueName.`n$ValueName not found at $FromKey"
+        $ValueNames = $SourceKey.GetValueNames()
+        If($ValueNames -notcontains $ValueName) {
+            If(-not $Silent) {
+                Write-Warning "Could not copy Registry Value $ValueName.`n$ValueName not found at $FromKey"
+            }
             Return
         }
+        $ValueType = $SourceKey.GetValueKind($ValueName)
         $ValueData = $SourceKey.GetValue($ValueName)
 
         Set-ItemProperty -Path $ToKey -Name $ValueName -Value $ValueData -Type $ValueType
